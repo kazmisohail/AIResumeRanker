@@ -43,8 +43,8 @@ Follow these steps to set up the project locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/](https://github.com/)kazmisohail/AIResumeRanker.git
-cd ai-resume-ranker
+git clone https://github.com/kazmisohail/AIResumeRanker.git
+cd AIResumeRanker
 
 ```
 
