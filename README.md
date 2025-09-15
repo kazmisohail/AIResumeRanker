@@ -4,6 +4,8 @@ An intelligent resume screening application that leverages Natural Language Proc
 
 ![AI Resume Ranker Screenshot](image.png)
 
+![AI Resume Ranker Screensho](image-1.png)
+
 ---
 
 ## Key Features
