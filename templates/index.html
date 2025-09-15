@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Ranker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <i class="fas fa-spinner fa-spin loading-spinner"></i>
+            <h2>Analyzing Resumes...!!</h2>
+            <p>This may take a few moments for a large number of files....!</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>AI Resume Ranker</h1>
+            <p>Automatically score and rank candidates based on your job description...!!</p>
+        </header>
+
+        {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+
+        <main>
+            <form action="/rank" method="post" enctype="multipart/form-data" id="ranking-form">
+                <div class="form-group">
+                    <label for="job_description">1. Provide Job Description</label>
+                    <textarea name="job_description" id="job_description" rows="8" placeholder="Paste the full job description here...!!"></textarea>
+                    
+                    <div class="jd-upload-option">
+                        <span class="or-divider">OR</span>
+                        <input type="file" name="jd_file" id="jd_file" accept=".docx">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="resumes">2. Upload Resumes (.docx format)</label>
+                    <input type="file" name="resumes" id="resumes" accept=".docx" multiple required>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-button">Rank Resumes</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('ranking-form').addEventListener('submit', function(event) {
+            const resumeInput = document.getElementById('resumes');
+            const jdTextInput = document.getElementById('job_description');
+            const jdFileInput = document.getElementById('jd_file');
+
+            // Basic validation to ensure files are selected
+            if (resumeInput.files.length === 0 || (jdTextInput.value.trim() === '' && jdFileInput.files.length === 0)) {
+                return;
+            }
+
+            // If validation passes, show the loader
+            document.getElementById('loading-overlay').classList.add('active');
+            document.getElementById('submit-button').disabled = true;
+            document.getElementById('submit-button').textContent = 'Processing...!!';
+        });
+    </script>
+</body>
+</html>

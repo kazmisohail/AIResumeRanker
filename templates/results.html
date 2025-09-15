@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Results - AI Resume Ranker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container results-container">
+        <header>
+            <h1>Ranking Results</h1>
+            <p>Top candidates ranked by hybrid relevance score...!!</p>
+        </header>
+
+        <main class="results-grid">
+            {% if results %}
+                {% for result in results %}
+                <div class="candidate-card">
+                    <div class="card-header">
+                        <div class="rank-badge">#{{ loop.index }}</div>
+                        <h3 class="filename">{{ result.filename }}</h3>
+                    </div>
+                    <div class="main-score">
+                        <div class="score-bar-container">
+                            <div class="score-bar" style="width: {{ result.scaled_score }}%;"></div>
+                        </div>
+                        <span class="score-percent">{{ result.scaled_score }}%</span>
+                    </div>
+                    <div class="score-breakdown">
+                        <span>Keyword: {{ result.scores.keyword_score }}%</span>
+                        <span>&bull;</span>
+                        <span>Semantic: {{ result.scores.semantic_score }}%</span>
+                    </div>
+                    {% if result.matched_skills %}
+                    <div class="skills-section">
+                        <h4>Matched Skills:</h4>
+                        <div class="skills-tags">
+                            {% for skill in result.matched_skills %}
+                                <span class="skill-tag">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-results-card">
+                    <h3>No Results</h3>
+                    <p>Could not process any resumes. Please go back and try again.</p>
+                </div>
+            {% endif %}
+        </main>
+        
+        <div class="footer-nav">
+            <a href="/" class="back-link">← Rank More Resumes</a>
+        </div>
+    </div>
+
+    <button id="back-to-top" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        // Back to Top Button Logic
+        let topButton = document.getElementById("back-to-top");
+        if(topButton) {
+            window.onscroll = function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    topButton.style.display = "block";
+                } else {
+                    topButton.style.display = "none";
+                }
+            };
+            topButton.onclick = function() {
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            };
+        }
+    </script>
+</body>
+</html>
